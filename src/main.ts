@@ -1,23 +1,25 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './modules/app/app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { env } from './utils/helpers/common.helper';
+
+const appPort = env('APP_PORT', 4000);
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     // Enable CORS
     app.enableCors({
-        origin: true, // You can replace this with specific origins like 'http://localhost:3000'
+        origin: true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
         credentials: true,
     });
 
-    await app.listen(process.env.PORT ?? 3000);
+    app.useGlobalPipes(new ValidationPipe());
+
+    await app.listen(appPort);
 }
 
 bootstrap()
-    .then(() => {
-        console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
-    })
-    .catch((error) => {
-        console.error('Error starting the server:', error);
-    });
+    .then(() => console.log(`Server is running on port ${appPort}`))
+    .catch((error) => console.error('Error starting the server:', error));

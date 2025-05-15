@@ -34,20 +34,20 @@ export class Directory {
         type: 'bigint',
         nullable: true,
     })
-    created_at: string;
+    created_at: number;
 
     @Column({
         type: 'bigint',
         nullable: true,
     })
-    updated_at: string;
+    updated_at: number;
 
     @OneToMany(() => Task, (task) => task.directory_id)
     tasks: Task[];
 
     @BeforeInsert()
     setCreatedAtEpoch() {
-        const now = Math.floor(Date.now() / 1000).toString(); // epoch in seconds
+        const now = Math.floor(Date.now() / 1000); // epoch in seconds
 
         if (!this.created_at) {
             this.created_at = now;
@@ -61,7 +61,7 @@ export class Directory {
     @BeforeUpdate()
     setUpdatedAtEpoch() {
         if (!this.updated_at) {
-            this.updated_at = Math.floor(Date.now() / 1000).toString();
+            this.updated_at = Math.floor(Date.now() / 1000);
         }
     }
 }
