@@ -13,4 +13,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     database: DB_DATABASE,
     port: parseInt(DB_PORT ?? '5432'),
     entities: [resolve(__dirname, '..', 'entities', '*.entity{.ts,.js}')],
+    logging: true,
 };

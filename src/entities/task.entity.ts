@@ -14,6 +14,11 @@ import { Directory } from './directory.entity';
 @Check(`"created_at" >= 0`)
 @Check(`"updated_at" >= 0`)
 export class Task {
+
+    constructor() {
+        console.log('TaskEntity initialized');
+    }
+    
     @PrimaryGeneratedColumn()
     id: number;
 

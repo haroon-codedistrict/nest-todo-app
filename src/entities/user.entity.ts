@@ -7,7 +7,6 @@ import {
     Check,
     OneToMany,
 } from 'typeorm';
-import * as argon2 from 'argon2';
 import { Task } from './task.entity';
 import { Directory } from './directory.entity';
 import { HashingService } from 'src/modules/shared/hashing/hashing.service';
@@ -17,12 +16,12 @@ import { HashingService } from 'src/modules/shared/hashing/hashing.service';
 @Check(`"updated_at" >= 0`)
 export class User {
 
-constructor(
+    constructor(
         private readonly hashingService: HashingService,
     ) {
         console.log('UserEntity initialized');
     }
-    
+
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -63,7 +62,7 @@ constructor(
             return;
         }
 
-        this.password = await argon2.hash(this.password);
+        this.password = await this.hashingService.hash(this.password);
     }
 
     @BeforeInsert()
